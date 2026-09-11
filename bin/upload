@@ -1,0 +1,12 @@
+#!/bin/sh
+
+
+if [ "$1" == "" ]
+then
+    opt=MaqueenRobot
+else
+    opt=$1
+fi
+
+arduino-cli upload   -p $MICROBITPORT  --fqbn sandeepmistry:nRF5:BBCmicrobitV2 $opt
+

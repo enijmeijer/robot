@@ -1,0 +1,28 @@
+--- a/cores/nRF5/pulse_asm.S
++++ b/cores/nRF5/pulse_asm.S
+@@ -58,17 +58,15 @@
+ 
+ */
+ 
+-	.cpu cortex-m0plus
+-	.fpu softvfp
+-	.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+-	.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+-	.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+-	.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+-	.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+-	.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+-	.eabi_attribute 30, 4	@ Tag_ABI_optimization_goals
+-	.eabi_attribute 34, 0	@ Tag_CPU_unaligned_access
+-	.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
++	@ NOTE: the .cpu/.fpu/.eabi_attribute directives that originally shipped
++	@ here (inherited from the Arduino Zero/SAMD core this file was copied
++	@ from) hardcoded Cortex-M0+/soft-float and silently overrode the
++	@ -mcpu/-mfloat-abi/-mfpu flags passed on the command line. That broke
++	@ linking on hard-float targets (e.g. BBC micro:bit V2 / nRF52833)
++	@ with "uses VFP register arguments ... does not" errors. They have
++	@ been removed so this file picks up whatever target the board
++	@ definition (boards.txt build.mcu / build.float_flags) requests.
+ 	.file	"count.c"
+ @ GNU C (GNU Tools for ARM Embedded Processors (Arduino build)) version 4.8.3 20140228 (release) [ARM/embedded-4_8-branch revision 208322] (arm-none-eabi)
+ @	compiled by GNU C version 4.3.2, GMP version 4.3.2, MPFR version 2.4.2, MPC version 0.8.1
